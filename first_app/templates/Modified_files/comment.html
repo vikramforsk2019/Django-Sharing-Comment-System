@@ -1,0 +1,33 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>
+{% load static %}    
+    <meta charset="UTF-8">  
+    <title>Comment Post</title>  
+</head>  
+<body>   
+	{% for raw in post_data %} 
+<label>Username: </label>
+	{{raw.id}}
+</br>
+    <label>Comments: </label>
+    {{raw.content}}
+</br>
+
+   {% endfor %}
+
+
+
+{% for comment in post_data %}
+    {% if not comment.parent %}
+        {{ comment.user.uname }} said: {{ comment.content }}
+  
+            {% for co in post_data %}
+                {% if comment.id == co.parent %}
+                    {{ co.user.uname }} answered to {{ comment.user.uname }}: {{ co.content }}
+                {% endif %}
+            {% endfor %}
+    {% endif %}
+{% endfor %}
+</body>  
+</html>  

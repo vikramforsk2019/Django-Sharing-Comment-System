@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load extras %} 
+      {% load static %}  
+      {% static "" as baseUrl %}
+{% load mptt_tags %}
+  <title>Show all Comment</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+   <script type="text/javascript">
+     $(document).ready(function(){
+  $("#multiform").submit(function(e)
+{
+  var content = document.getElementById("cid").value;
+  var postid = document.getElementById("postid").value;
+  alert(postid);
+   $.ajax({
+                        type: 'POST',
+                        url: '{% url "comment_post" %}',
+                        data: {
+                            'postid':postid,
+                            'content':content,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },               
+  });
+});
+     });
+    </script>
+<style>
+.comments-details button.btn.dropdown-toggle,
+.comments-details .total-comments {
+    font-size: 18px;
+    font-weight: 500;
+    color: #5e5e5e;
+}
+.comments-details {
+    padding: 15px 15px;
+}
+.comments .comments .dropdown,
+.comments .dropup {
+    position: relative;
+}
+.comments button {
+    background-color: transparent;
+    border: none;
+}
+.comments .comment-box {
+    width: 100%;
+    float: left;
+    height: 100%;
+    background-color: #FAFAFA;
+    padding: 10px 10px 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+.comments .add-comment {
+    background-color: transparent;
+    border: none;
+    position: relative;
+    margin-bottom: 50px;
+}
+.comments .commenter-pic {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    border-radius: 100%;
+    border: 2px solid #fff;
+    overflow: hidden;
+    background-color: #fff;
+}
+.comments .add-comment .commenter-name {
+    width: 100%;
+    padding-left: 75px;
+    position: absolute;
+    top: 20px;
+    left: 0px;
+}
+.comments .add-comment input {
+    border-top: 0px;
+    border-bottom: 1px solid #ccc;
+    border-left: 0px;
+    border-right: 0px;
+    outline: 0px;
+    box-shadow: none;
+    border-radius: 0;
+    width: 100%;
+    padding: 0;
+    font-weight: normal;
+}
+.comments .add-comment input:focus {
+    border-color: #03a9f4;
+    border-width: 2px;
+}
+.comments .add-comment button[type=submit] {
+    background-color: #03a9f4;
+    color: #fff;
+    margin-right: 0px;
+}
+.comments .add-comment button {
+    background-color: #f5f5f5;
+    margin: 10px 5px;
+    font-size: 14px;
+    text-transform: uppercase;
+    float: right;
+}
+.comments .commenter-name .comment-time {
+    font-weight: normal;
+    margin-left: 8px;
+    font-size: 15px;
+}
+.comments p.comment-txt {
+    font-size: 15px;
+    border-bottom: 1px solid #ddd;
+    padding: 0px 0px 15px;
+}
+.comments .commenter-name {
+    display: inline-block;
+    position: relative;
+    top: -20px;
+    left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.comments .comment-meta {
+    font-size: 14px;
+    color: #333;
+    padding: 2px 5px 0px;
+    line-height: 20px;
+    float: right;
+}
+.comments .reply-box {
+    display: none;
+}
+.comments .replied {
+    background-color: #fff;
+    width: 95%;
+    float: right;
+    margin-top: 15px;
+}
+
+/*======Responsive CSS=======*/
+@media (max-width: 767px){
+.comments .commenter-name {
+    font-size: 13px;
+    top: -5px;
+}
+.comments .commenter-pic {
+    width: 40px;
+    height: 40px;
+}
+.comments .commenter-name a{
+  display: block;
+}
+.comments .commenter-name .comment-time{
+  display: block;
+  margin-left: 0px;
+}
+}
+</style>  
+</head>
+<body>
+  </br>
+  Post Title:  <tr>{{raw.title}}</tr>
+ </br>
+  Post Body:  <tr>{{raw.body}}</tr>
+</br>
+<img src="{{ baseUrl }}upload/{{raw.author.file.url}}" alt="My image" height="200px" width="1200px"/>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="comments">
+        <div class="comments-details">
+          <span class="total-comments comments-sort">117 Comments</span>
+          <span class="dropdown">
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Sort By <span class="caret"></span></button>
+              <div class="dropdown-menu">
+                <a href="#" class="dropdown-item">Top Comments</a>
+              <a href="#" class="dropdown-item">Newest First</a>
+              </div>
+          </span>     
+        </div>
+       <form action="/comment_post/" method="POST" enctype="multipart/form-data" id="multiform">
+  {% csrf_token %}  
+        <div class="comment-box add-comment">
+          <span class="commenter-pic">
+            <img src=" {% static '/upload/kri.jpg' %} " class="img-fluid">
+          </span>
+          <span class="commenter-name">
+            <input type="text" placeholder="Add a public comment" name="commentbox" id="cid" value="">
+              <input id="postid" type="text" name="postid" value="{{raw.id}}" hidden>
+            <button type="submit" class="btn btn-default">Comment</button>
+            <button type="cancel" class="btn btn-default">Cancel</button>
+          </span>
+        </div>
+      </form>
+{% recursetree genres %}
+        <div class="comment-box">
+          <span class="commenter-pic">
+            <img src=" {% static '/upload/kri.jpg' %} " class="img-fluid">
+          </span>
+          <span class="commenter-name">
+            <a href="#">{{node.user.uname}}</a> <span class="comment-time">2 hours ago</span>
+          </span>       
+          <p class="comment-txt more"> {{ node.content }}</p>
+          <div class="comment-meta">
+            <button class="comment-like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 99</button>
+            <button class="comment-dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 149</button> 
+            <button data-toggle="collapse" data-target="#demo{{ node.id }}"><i class="fa fa-reply-all" aria-hidden="true"></i> Reply</button>         
+          </div>
+          <div id="demo{{ node.id }}" class="collapse" class="comment-box add-comment reply-box">
+            <form /action="/comment_post/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %} 
+            <span class="commenter-pic">
+              <img src=" {% static '/upload/kri.jpg' %} " class="img-fluid">
+            </span>
+            <span class="commenter-name">
+              <input type="text" placeholder="Add a public reply" name="commentbox">
+                <input id="" type="text" name="postid" value="{{raw.id}}" hidden>
+      <input id="" type="text" name="parentid" value="{{node.id}}" hidden>
+              <button type="submit" class="btn btn-default">Reply</button>
+              <button type="cancel" class="btn btn-default reply-popup">Cancel</button>
+            </span>
+            </form>
+          </div>
+        </div>
+         {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+
+                </ul>
+            {% endif %}
+         {% endrecursetree %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+
+<script>
+// Reply box popup JS
+$(document).ready(function(){
+  $(".reply-popup").click(function(){
+    $(".reply-box").toggle();
+  });
+});
+</script>

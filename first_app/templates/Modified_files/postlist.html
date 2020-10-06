@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+      {% load static %}  
+      {% static "" as baseUrl %}
+</head>
+<body>
+
+<h2>User Profile</h2>
+<table style="width:100%">
+  {% for raw in post_data %} 
+<div>
+  <a href=" {% static '{% url ' {% static 'post_des' %} ' username=raw.id %}' %} "> Username: {{raw.author.uname}}</a>
+
+</br>
+  Post Title:  <tr>{{raw.title}}</tr>
+ 
+  Post Body:  <tr>{{raw.body}}</tr>
+
+   {% endfor %}
+</table>
+<a href=" {% static '/profile/' %} ">Profile</a>
+
+<!-- <img src=" {% static '{{row.file.url} {% static '' %} }' %} " alt="My image" height="300px" width="700px"/> -->
+<img src=" {% static '{{ baseUrl }}upload/{{row.file.url} {% static '' %} }' %} " alt="My image" height="100px" width="100px"/>  
+</br>
+
+</body>
+</html>

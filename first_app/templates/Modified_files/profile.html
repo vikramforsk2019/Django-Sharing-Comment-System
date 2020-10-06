@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+      {% load static %}  
+      {% static "" as baseUrl %}
+</head>
+<body>
+
+<h2>User Profile</h2>
+<h1>You:{{row.uname}}</h1>
+<table style="width:100%">
+  <tr>
+    <th>Name</th> 
+    <th>email</th>
+     <th>image</th>
+  </tr>
+  <tr>
+    <td>{{row.uname}}</td>
+    <td>{{row.email}}</td>
+    <td>{{row.file}}</td>
+    <td>{{row.id}}</td>
+  </tr>
+ 
+</table>
+
+
+<!-- <img src=" {% static '{{row.file.url} {% static '' %} }' %} " alt="My image" height="300px" width="700px"/> -->
+<img src=" {% static '{{ baseUrl }}upload/{{row.file.url} {% static '' %} }' %} " alt="My image" height="100px" width="100px"/>  
+</br>
+<a href=" {% static '/postlist_all/' %} ">allpostlist</a>
+<a href=" {% static '/createpost/' %} ">Createpost</a>
+<a href=" {% static '/logout/' %} ">Logout</a>
+<a href=" {% static '/profile/' %} ">Profile</a>
+<a href=" {% static '/postlist/' %} ">Self_Postlist</a>
+</body>
+</html>

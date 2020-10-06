@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% load extras %} 
+      {% load static %}  
+      {% static "" as baseUrl %}
+{% load mptt_tags %}
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<h2>User Profile</h2>
+<h1>You: {{raw.author.uname}}</h1>
+<a href=" {% static '/profile/' %} ">Profile</a>
+<table style="width:100%">
+ 
+<div>
+  <a href=" {% static '//' %} "> Username: {{raw.author.uname}}</a>
+
+</br>
+  Post Title:  <tr>{{raw.title}}</tr>
+ </br>
+  Post Body:  <tr>{{raw.body}}</tr>
+</br>
+<img src=" {% static '{{ baseUrl }}upload/{{raw.author.file.url} {% static '' %} }' %} " alt="My image" height="100px" width="100px"/>  
+   
+</table>
+
+
+<!-- <img src=" {% static '{{row.file.url} {% static '' %} }' %} " alt="My image" height="300px" width="700px"/> -->
+
+</br>
+<form action="/comment_post/" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}  
+    <label for="team_name">Comments All: </label>
+       <input id="" type="text" name="postid" value="{{raw.id}}" hidden>
+      <input id="" type="text" name="commentbox" value="type">
+    <input type="submit" value="Submit">
+</form>
+
+<ul>
+    {% recursetree genres %}
+        <li>
+            {{ node.content }}
+            {{ node.id }}
+               <div class="container">
+  <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo{{ node.id }}">Reply</button>
+  
+  <div id="demo{{ node.id }}" class="collapse">
+<form action="/comment_post/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}  
+    <label for="team_name">Comments child: </label>
+    <input id="team_name" type="text" name="commentbox" value="jai">
+       <input id="" type="text" name="postid" value="{{raw.id}}" hidden>
+      <input id="" type="text" name="parentid" value="{{node.id}}" hidden>
+    <input type="submit" value="OK">
+</form>
+  </div>
+</div>
+  </br>
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
+
+</body>
+</html>

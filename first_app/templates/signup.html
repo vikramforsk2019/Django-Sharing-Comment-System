@@ -1,0 +1,18 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>
+{% load static %}    
+    <meta charset="UTF-8">  
+    <title>Signup</title>  
+</head>  
+<body>  
+<form action="/home/" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}  
+    <label for="team_name">Enter name: </label>
+    <input id="team_name" type="text" name="uname" value="">
+       <input id="" type="text" name="email" value="@gmail.com">
+      <input type="file" name="myfile">
+    <input type="submit" value="OK">
+</form>
+</body>  
+</html>  
