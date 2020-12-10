@@ -18,8 +18,15 @@ path('postlist/', views.postlist),
 path('postlist_all/', views.postlist_all),
     re_path(r'^post_des/(?P<username>[.@_+\w-]+)$', views.post_des, name='post_des'),
 path('comment_post/', views.comment_post,name='comment_post'),
+
  path('postlist_view/', PostList.as_view(),name='postlist_view'),
  path('show_tree/', views.show_tree),
-
  
+#Ajax requests
+    path('products/', views.get, name='get_products'),
+
+  path('thumbs/', views.thumbs, name='thumbs'),  
+  re_path(r'^remove_comment/(?P<commentid>[.@_+\w-]+)$', views.remove_comment, name='remove_comment'), 
+
+  path('edit/',views.edit,name='edit')
 ]

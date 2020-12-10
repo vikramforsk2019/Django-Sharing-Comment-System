@@ -1,0 +1,14 @@
+<a href="{{ baseUrl }}upload/{{post.file.url}}" download>Download</a>
+
+<video width='400' controls>
+<source src="{{ baseUrl }}upload/{{post.file.url}}" alt="My image" height="400px" width="400px" />
+</video>
+
+<embed src="{{ baseUrl }}upload/{{post.file.url}}" width="200px" height="200px" style="vertical-align:middle;margin:0px 50px"/>
+
+<img src="{{ baseUrl }}upload/{{post.file.url}}" alt="My image" height="400px" width="400px" />
+
+<audio controls>
+  <source src="{{ baseUrl }}upload/{{post.file.url}}" alt="My image" height="400px" width="400px" >
+Your browser does not support the audio element.
+</audio> 
